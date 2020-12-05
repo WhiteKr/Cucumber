@@ -34,7 +34,6 @@ exports.run = (client: any, message: any, args: any) => {
 				.setColor('#0099ff')
 				.setTitle('코로나-19')
 				.setURL('https://covid.msub.kr')
-				.setDescription('코로나-19 현황');
 			for (let i = 0; i < list.length; i++) {
 				if (i == list.length - 1) {
 					covidEmbed.addField(`${korList[i]}`, `- ${todayList[i]}명`);
