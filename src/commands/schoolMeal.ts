@@ -13,9 +13,9 @@ exports.run = (client: any, message: any, args: any) => {
 		return;
 	} else { // if (school.match(/(.+)(초|중|고).*/)) {
 		if (school.match(/(.+) ?(초|고).*/))
-			school = school.replace(/(.+) ?(초|고)(등학교)?/, '$1 $2등학교');
+			school = school.replace(/(.+) ?(초|고)(등학교)?/, '$1$2등학교');
 		else if (school.match(/(.+) ?중(학교)?/))
-			school = school.replace(/(.+) ?중.*/, '$1 중학교')
+			school = school.replace(/(.+) ?중.*/, '$1중학교')
 	}
 
 	const date = new Date();
