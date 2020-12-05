@@ -1,21 +1,18 @@
+import Discord from 'discord.js';
 import request from 'request';
 import cheerio from 'cheerio';
+import { DiscordAPIError } from 'discord.js';
 
 const PREFIX = require('../../option.json').PREFIX;
 
 const name = '급식';
-const useage = `${PREFIX}${name} \`[학교명((초등|중|고등)학교)]\``;
+const useage = `${PREFIX}${name} [학교명]`;
 
 exports.run = (client: any, message: any, args: any) => {
 	let school = args[1];
 	if (school == undefined) {
 		message.channel.send(`${name} 명령어 사용법: \`${useage}\``);
 		return;
-	} else { // if (school.match(/(.+)(초|중|고).*/)) {
-		if (school.match(/(.+) ?(초|고).*/))
-			school = school.replace(/(.+) ?(초|고)(등학교)?/, '$1$2등학교');
-		else if (school.match(/(.+) ?중(학교)?/))
-			school = school.replace(/(.+) ?중.*/, '$1중학교')
 	}
 
 	const date = new Date();
@@ -42,18 +39,24 @@ exports.run = (client: any, message: any, args: any) => {
 		});
 
 		if (strongs[0] == undefined || uls[0] == undefined) {
-			message.channel.send(`**${school}**의 급식 정보를 찾을 수 없습니다.`);
+			message.channel.send(`**${school}**의 급식 정보를 찾을 수 없습니다. 줄임말 등을 없애고 정확하게 입력해보세요`);
 			return;
 		}
 
-		let result = '';
-		let cnt = 6;
-		result += `**${school}**의 최근 ${cnt}개 급식 정보입니다.\n\`\`\``;
-		for (let i = 0; i < cnt; i++) {
-			result += `${strongs[i]}\n -${uls[i]}\n`;
-		}
-		result += '```';
-		message.channel.send(result);
+		let page = 0;
+		let schoolMealEmbed = new Discord.MessageEmbed()
+			.setColor('#0099ff')
+			.setTitle(`**${school}**`)
+			.setDescription(`**${school}**의 급식 정보입니다.\n\n${uls[page].split(' ').join('\n')}`);
+
+		// let result = '';
+		// let cnt = 6;
+		// result += `**${school}**의 최근 ${cnt}개 급식 정보입니다.\n\`\`\``;
+		// for (let i = 0; i < cnt; i++) {
+		// 	result += `${strongs[i]}\n -${uls[i]}\n`;
+		// }
+		// result += '```';
+		message.channel.send(schoolMealEmbed);
 	});
 }
 

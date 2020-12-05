@@ -13,10 +13,10 @@ client.login(TOKEN).then(() => {
 });
 
 const activities_list = [
-	"시간표 확인은 \`시간표",
-	"급식 확인은 \`급식",
-	"코로나 현황 확인은 \`코로나",
-	"오류나 건의 사항은 White_Choco#9170"
+	`시간표 확인은 ${PREFIX}시간표`,
+	`급식 확인은 ${PREFIX}급식`,
+	`코로나 현황 확인은 ${PREFIX}코로나`,
+	`오류나 건의 사항은 White_Choco#9170`
 ];
 let index = 0;
 

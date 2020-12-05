@@ -5,7 +5,7 @@ const TIMETABLE = require('../../option.json').TIMETABLE;
 const PREFIX = require('../../option.json').PREFIX;
 
 const name = '시간표';
-const useage = `${PREFIX}${name} \`[반(반)]\` \`<요일(요일|욜)>\``
+const useage = `${PREFIX}${name} [반(반)] <요일(요일|욜)>`
 
 const guildIdList: string[] = ['507913851665252363'];
 const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
@@ -81,31 +81,36 @@ exports.run = (client: any, message: any, args: any) => {
 			peroid = null;
 		}
 
-		const timeTableArr = TIMETABLE[classNum][today].split(" ");
+		let timeTableArr = TIMETABLE[classNum][today];
+		if (timeTableArr == undefined) {
+			timeTableEmbed.addField('와, 주말!', `오늘은 ${today}요일입니다. 주말을 만끽하세요~`);
+		} else {
+			timeTableArr = timeTableArr.split(" ");
 
-		if (today == weekDays[date.getDay()] && peroid != null) {
-			if (peroid == 4.5) {
-				peroid = Math.floor(peroid);
-				timeTableEmbed.addField("점심 시간", `**${peroid + 8}:50 ~ ${peroid + 8 + 1}:50** 동안 **점심시간**입니다.`);
-			} else if (peroid % 1 == 0) {
-				timeTableEmbed
-					.addField(
-						`수업 시간 (${peroid}교시)`,
-						`${peroid + 8}:50 ~ ${peroid + 8 + 1}:${50}\n지금은 **${timeTableArr[peroid - 1]}** 시간입니다.`
-					);
-			} else if (peroid % 1 == 0.5) {
-				peroid = Math.floor(peroid);
-				if (peroid == 4) {
-					timeTableEmbed.addField("쉬는 시간", `${peroid}교시 쉬는 시간입니다.\n이제 **점심 시간**입니다. 점심 맛있게 드세요!`);
-				} else {
-					timeTableEmbed.addField("쉬는 시간", `${peroid}교시 쉬는 시간입니다.\n${peroid + 1}교시 **${timeTableArr[peroid]}** 수업을 준비하세요.`);
+			if (today == weekDays[date.getDay()] && peroid != null) {
+				if (peroid == 4.5) {
+					peroid = Math.floor(peroid);
+					timeTableEmbed.addField("점심 시간", `**${peroid + 8}:50 ~ ${peroid + 8 + 1}:50** 동안 **점심시간**입니다.`);
+				} else if (peroid % 1 == 0) {
+					timeTableEmbed
+						.addField(
+							`수업 시간 (${peroid}교시)`,
+							`${peroid + 8}:50 ~ ${peroid + 8 + 1}:${50}\n지금은 **${timeTableArr[peroid - 1]}** 시간입니다.`
+						);
+				} else if (peroid % 1 == 0.5) {
+					peroid = Math.floor(peroid);
+					if (peroid == 4) {
+						timeTableEmbed.addField("쉬는 시간", `${peroid}교시 쉬는 시간입니다.\n이제 **점심 시간**입니다. 점심 맛있게 드세요!`);
+					} else {
+						timeTableEmbed.addField("쉬는 시간", `${peroid}교시 쉬는 시간입니다.\n${peroid + 1}교시 **${timeTableArr[peroid]}** 수업을 준비하세요.`);
+					}
 				}
 			}
-		}
-		timeTableEmbed.addField("\u200B", "\u200B");
+			timeTableEmbed.addField("\u200B", "\u200B");
 
-		for (let i = 0; i < timeTableArr.length; i++) {
-			timeTableEmbed.addField(`${i + 1}교시`, timeTableArr[i], true);
+			for (let i = 0; i < timeTableArr.length; i++) {
+				timeTableEmbed.addField(`${i + 1}교시`, timeTableArr[i], true);
+			}
 		}
 	}
 
