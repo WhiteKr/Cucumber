@@ -1,7 +1,6 @@
 import Discord from 'discord.js';
 import request from 'request';
 import cheerio from 'cheerio';
-import { DiscordAPIError } from 'discord.js';
 
 const PREFIX = require('../../option.json').PREFIX;
 
