@@ -83,7 +83,7 @@ exports.run = (client: any, message: any, args: any) => {
 
 		let timeTableArr = TIMETABLE[classNum][today];
 		if (timeTableArr == undefined) {
-			timeTableEmbed.addField('와, 주말!', `오늘은 ${today}요일입니다. 주말을 만끽하세요~`);
+			timeTableEmbed.addField('와, 주말!', `${today}요일은 편하게 쉬는 날~`);
 		} else {
 			timeTableArr = timeTableArr.split(" ");
 

@@ -38,16 +38,16 @@ exports.run = (client: any, message: any, args: any) => {
 			uls[i] = uls[i].replace(/(\d+\.)+/g, '');
 		});
 
-		if (strongs[0] == undefined || uls[0] == undefined) {
-			message.channel.send(`**${school}**의 급식 정보를 찾을 수 없습니다. 줄임말 등을 없애고 정확하게 입력해보세요`);
-			return;
-		}
-
 		let page = 0;
 		let schoolMealEmbed = new Discord.MessageEmbed()
 			.setColor('#0099ff')
-			.setTitle(`**${school}**`)
-			.setDescription(`**${school}**의 급식 정보입니다.\n\n${uls[page].split(' ').join('\n')}`);
+			.setTitle(`**${school}**`);
+
+		if (strongs[0] == undefined || uls[0] == undefined) {
+			schoolMealEmbed.addField(`찾을 수 없음`, `**${school}**의 급식 정보를 찾을 수 없습니다. 줄임말 등을 없애고 다시 입력해보세요`);
+			return;
+		} else
+			schoolMealEmbed.setDescription(`**${school}**의 급식 정보입니다.\n\n${uls[page].split(' ').join('\n')}`);
 
 		// let result = '';
 		// let cnt = 6;

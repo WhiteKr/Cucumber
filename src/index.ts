@@ -19,7 +19,6 @@ const activities_list = [
 	`오류나 건의 사항은 White_Choco#9170`
 ];
 let index = 0;
-
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user?.tag}!`);
 	setInterval(() => {
