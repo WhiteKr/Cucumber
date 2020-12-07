@@ -3,29 +3,27 @@ import Discord from 'discord.js';
 const MASTER = require('../../option.json').MASTER;
 const TIMETABLE = require('../../option.json').TIMETABLE;
 const PREFIX = require('../../option.json').PREFIX;
+const FRIENDSROOM = require('../../option.json').FRIENDSROOM;
 
 const name = '시간표';
 const useage = `${PREFIX}${name} [반(반)] <요일(요일|욜)>`
 
-const guildIdList: string[] = ['507913851665252363'];
 const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
 
 //run이라는 메소드(function)을 export
 exports.run = (client: any, message: any, args: any) => {
-	if (guildIdList.indexOf(message.guild.id.toString()) == -1) {
-		if (MASTER.indexOf(message.author.id)) {
-			return;
-		}
+	if (FRIENDSROOM.indexOf(message.guild.id.toString()) == -1) {
+		if (MASTER.indexOf(message.author.id)) return;
 	}
 
 	const date = new Date();
 
 	let classNum = args[1];
-	if (TIMETABLE[classNum] == undefined) {
+	if (TIMETABLE[classNum] != undefined) {
+		classNum = classNum.replace(/^(\d+)반?$/, "$1");
+	} else {
 		message.channel.send(`${name} 명령어 사용법: \`${useage}\``);
 		return;
-	} else {
-		classNum = classNum.replace(/^(\d+)반$/, "$1");
 	}
 
 	let today: string;
@@ -42,7 +40,6 @@ exports.run = (client: any, message: any, args: any) => {
 		}
 	}
 
-	// const dukyoungCircleLogo: any = new Discord.MessageAttachment('/Users/sw-dev06/Desktop/Projects/Discord Bot/Cucumber/src/image/dukyoungCircleLogo.png', 'dukyoungCircleLogo.png');
 	const dukyoungCircleLogo: any = new Discord.MessageAttachment('./src/image/dukyoungCircleLogo.png', 'dukyoungCircleLogo.png');
 
 	const color = ["#67C2E0", "#FFFFFF", "#005CAF"];

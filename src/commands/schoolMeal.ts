@@ -46,15 +46,8 @@ exports.run = (client: any, message: any, args: any) => {
 			schoolMealEmbed.addField(`찾을 수 없음`, `**${school}**의 급식 정보를 찾을 수 없습니다. 줄임말 등을 없애고 다시 입력해보세요`);
 			return;
 		} else
-			schoolMealEmbed.setDescription(`**${school}**의 급식 정보입니다.\n\n${uls[page].split(' ').join('\n')}`);
+			schoolMealEmbed.addField(`**${strongs[page]}**`, `${uls[page].split(' ').join('\n')}`);
 
-		// let result = '';
-		// let cnt = 6;
-		// result += `**${school}**의 최근 ${cnt}개 급식 정보입니다.\n\`\`\``;
-		// for (let i = 0; i < cnt; i++) {
-		// 	result += `${strongs[i]}\n -${uls[i]}\n`;
-		// }
-		// result += '```';
 		message.channel.send(schoolMealEmbed);
 	});
 }
