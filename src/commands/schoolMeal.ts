@@ -72,8 +72,6 @@ exports.run = (client: any, message: any, args: any) => {
 					}
 					break;
 			}
-			console.log(`page: ${page}`);
-			// message.edit(mealEmbed(page));
 		}, message);
 	});
 }
