@@ -19,8 +19,9 @@ exports.run = (client: any, message: any, args: any) => {
 	const date = new Date();
 
 	let classNum = args[1];
-	if (TIMETABLE[classNum] != undefined) {
+	if (classNum.match(/^(\d+)반?$/))
 		classNum = classNum.replace(/^(\d+)반?$/, "$1");
+	if (TIMETABLE[classNum] != undefined) {
 	} else {
 		message.channel.send(`${name} 명령어 사용법: \`${useage}\``);
 		return;
@@ -32,7 +33,7 @@ exports.run = (client: any, message: any, args: any) => {
 		today = weekDays[date.getDay()];
 	}
 	else {
-		inputToday = inputToday.replace(/^(\W+)(요일|욜)$/, "$1");
+		inputToday = inputToday.replace(/^(\W+)(요일|욜)?$/, "$1");
 		if (weekDays.indexOf(inputToday) != -1) {
 			today = inputToday;
 		} else {

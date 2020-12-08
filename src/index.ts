@@ -13,6 +13,7 @@ client.login(TOKEN).then(() => {
 });
 
 const activities_list = [
+	`${client.user?.username}봇의 접두사는 ${PREFIX} 입니다`,
 	`시간표 확인은 ${PREFIX}시간표`,
 	`급식 확인은 ${PREFIX}급식`,
 	`코로나 현황 확인은 ${PREFIX}코로나`,
@@ -22,13 +23,12 @@ let index = 0;
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user?.tag}!`);
 	setInterval(() => {
-		// const index = Math.floor(Math.random() * (activities_list.length - 1) + 1); // generates a random number between 1 and the length of the activities array list (in this case 5).
 		if (index == activities_list.length - 1)
 			index = 0;
 		else
 			index++;
-		client.user?.setActivity(activities_list[index]); // sets bot's activities to one of the phrases in the arraylist.
-	}, 6000); // Runs this every 10 seconds.
+		client.user?.setActivity(activities_list[index]);
+	}, 6000);
 });
 
 function requireUncached(module: any) {
@@ -43,8 +43,10 @@ commands.load = (dir: any) => {
 		const cmd = require(`./commands/${file}`);
 		commands.set(cmd.name, cmd);
 	}
-	console.log(commands.map((c: any) => c.name).join(', ') + ' 명령어가 로드됨.');
+	// console.log(commands.map((c: any) => c.name).join(', ') + ' 명령어가 로드됨.');
 }
+
+let messageReaction: any = {};
 
 client.on('message', (message: any) => {
 	if (message.author.bot) return;
@@ -60,6 +62,31 @@ client.on('message', (message: any) => {
 
 	if (cmd) {
 		cmd.run(client, message, args);
-		console.log(`\n${message.author.tag}\n  ${message.content}\n`);
+		console.log(`\n${message.author.tag} in ${message.channel.name} of ${message.guild.name}\n  ${message.content}\n`);
 	}
+});
+
+module.exports.send = function (str: any, arr: any, callback: any, message: any) {
+	try {
+		if (typeof callback != "function") return "It is not a function.";
+		if (!Array.isArray(arr)) return "It is not an array.";
+		message.channel.send(str).then((message: any) => {
+			arr.forEach((val) => {
+				message.react(val).catch((e: any) => { });
+			})
+			if (callback != null) {
+				messageReaction[message.id] == null ? messageReaction[message.id] = {} : null;
+				messageReaction[message.id].message = message;
+				messageReaction[message.id].onClick = callback;
+			}
+		}).catch((e: any) => { });
+	} catch (e) { }
+}
+
+client.on("messageReactionAdd", function (reaction, user) {
+	if (!user.bot) messageReaction[reaction.message.id] != null ? messageReaction[reaction.message.id].onClick(reaction, user, messageReaction[reaction.message.id].message) : null;
+});
+
+client.on("messageReactionRemove", function (reaction, user) {
+	if (!user.bot) messageReaction[reaction.message.id] != null ? messageReaction[reaction.message.id].onClick(reaction, user, messageReaction[reaction.message.id].message) : null;
 });
