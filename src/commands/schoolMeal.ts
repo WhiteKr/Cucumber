@@ -43,13 +43,10 @@ exports.run = (client: any, message: any, args: any) => {
 			let embed = new Discord.MessageEmbed()
 				.setColor('#0099ff')
 				.setTitle(`**${school}**`);
-
-			if (strongs[0] == undefined || uls[0] == undefined) {
-				embed.addField(`찾을 수 없음`, `**${school}**의 급식 정보를 찾을 수 없습니다. 줄임말 등을 없애고 다시 입력해보세요`);
-				return;
-			} else
+			if (strongs[0] == undefined || uls[0] == undefined)
+				embed.addField(`찾을 수 없음`, `**${school}**의 급식 정보를 찾을 수 없습니다.\n줄임말 등을 없애고 다시 입력해보세요`);
+			else
 				embed.addField(`**${strongs[page]}**`, `${uls[page].split(' ').join('\n')}`);
-
 			return embed;
 		}
 
