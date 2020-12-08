@@ -12,14 +12,11 @@ const send = require('../index.ts').send;
 let page = 0;
 
 exports.run = (client: any, message: any, args: any) => {
-	let ct = message;
 	let school = args[1];
 	if (school == undefined) {
 		message.channel.send(`${name} 명령어 사용법: \`${useage}\``);
 		return;
 	}
-
-	const date = new Date();
 
 	request.get(`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=${encodeURI(school)}`, async (err, res, body) => {
 		if (err) return console.error(err);
@@ -41,7 +38,6 @@ exports.run = (client: any, message: any, args: any) => {
 			uls[i] = $(elem).text();
 			uls[i] = uls[i].replace(/(\d+\.)+/g, '');
 		});
-
 
 		const mealEmbed = function (page: any) {
 			let embed = new Discord.MessageEmbed()
