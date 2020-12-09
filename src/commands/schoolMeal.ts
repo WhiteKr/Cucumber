@@ -40,32 +40,40 @@ exports.run = (client: any, message: any, args: any) => {
 		});
 
 		const mealEmbed = function (page: any) {
+			let notFound: boolean;
 			let embed = new Discord.MessageEmbed()
 				.setColor('#0099ff')
 				.setTitle(`**${school}**`);
-			if (strongs[0] == undefined || uls[0] == undefined)
+			if (strongs[0] == undefined || uls[0] == undefined) {
 				embed.addField(`찾을 수 없음`, `**${school}**의 급식 정보를 찾을 수 없습니다.\n줄임말 등을 없애고 다시 입력해보세요`);
-			else
+				notFound = true;
+			} else {
 				embed.addField(`**${strongs[page]}**`, `${uls[page].split(' ').join('\n')}`);
-			return embed;
+				notFound = false;
+			}
+			return { embed, notFound };
 		}
 
-		send(mealEmbed(page), ['◀️', '▶️'], function (reaction: any, user: any, message: any) {
-			switch (reaction.emoji.name) {
-				case '◀️':
-					if (page != 0) {
-						page--;
-						message.edit(mealEmbed(page));
-					}
-					break;
-				case '▶️':
-					if (page != strongs.length - 1) {
-						page++;
-						message.edit(mealEmbed(page));
-					}
-					break;
-			}
-		}, message);
+		if (mealEmbed(page).notFound) {
+			message.channel.send(mealEmbed(page).embed);
+		} else {
+			send(mealEmbed(page).embed, ['◀️', '▶️'], function (reaction: any, user: any, message: any) {
+				switch (reaction.emoji.name) {
+					case '◀️':
+						if (page != 0) {
+							page--;
+							message.edit(mealEmbed(page));
+						}
+						break;
+					case '▶️':
+						if (page != strongs.length - 1) {
+							page++;
+							message.edit(mealEmbed(page));
+						}
+						break;
+				}
+			}, message);
+		}
 	});
 }
 
