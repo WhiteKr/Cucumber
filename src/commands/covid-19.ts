@@ -22,7 +22,7 @@ exports.run = (client: any, message: any, args: any) => {
 			const today = jsonObj.today;
 			const yesterday = jsonObj.yesterday;
 
-			let todayList = [];
+			let todayList: any[] = [];
 			let yesterdayList: any[] = [];
 			const update = today.update;
 			for (let i = 0; i < list.length; i++) {
@@ -30,20 +30,21 @@ exports.run = (client: any, message: any, args: any) => {
 				yesterdayList[i] = yesterday[list[i]];
 			}
 
-			let covidEmbed = new Discord.MessageEmbed()
-				.setColor('#0099ff')
-				.setTitle('코로나-19')
-				.setURL('https://covid.msub.kr')
-			for (let i = 0; i < list.length; i++) {
-				if (i == list.length - 1) {
-					covidEmbed.addField(`${korList[i]}`, `- ${todayList[i]}명`);
-				} else {
-					covidEmbed.addField(`${korList[i]}`, `${todayList[i]} ${yesterdayList[i]}`);
+			const covidEmbed = function (list: any, korList: any, todayList: any, yesterdayList: any, message: any) {
+				let embed = new Discord.MessageEmbed()
+					.setColor('#0099ff')
+					.setTitle('코로나-19')
+					.setURL('https://covid.msub.kr')
+				for (let i = 0; i < list.length; i++) {
+					if (i == list.length - 1)
+						embed.addField(`${korList[i]}`, `- ${todayList[i]}명`);
+					else
+						embed.addField(`${korList[i]}`, `${todayList[i]} ${yesterdayList[i]}`);
 				}
+				embed.setFooter(message.author.tag, message.author.avatarURL());
+				return embed;
 			}
-			covidEmbed.setFooter(message.author.tag, message.author.avatarURL());
-
-			message.channel.send(covidEmbed);
+			message.channel.send(covidEmbed(list, korList, todayList, yesterdayList, message));
 		}
 	});
 }

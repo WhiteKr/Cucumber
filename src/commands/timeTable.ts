@@ -12,32 +12,42 @@ const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
 
 //run이라는 메소드(function)을 export
 exports.run = (client: any, message: any, args: any) => {
-	if (FRIENDSROOM.indexOf(message.guild.id.toString()) == -1) {
-		if (MASTER.indexOf(message.author.id)) return;
-	}
-
 	const date = new Date();
 
 	let classNum = args[1];
-	if (classNum.match(/^(\d+)반?$/))
-		classNum = classNum.replace(/^(\d+)반?$/, "$1");
-	if (TIMETABLE[classNum] != undefined) {
+	if (classNum == undefined || classNum == '') {
+		message.channel.send(`${name} 명령어 사용법: \`${useage}\``);
+		return;
+	} else if (classNum.match(/^(\d+)반?$/)) {
+		classNum = classNum.replace(/^(\d+)반?$/, '$1');
+		if (TIMETABLE[classNum] == undefined) {
+			message.channel.send(`${classNum}반을 찾을 수 없습니다. 반을 제대로 입력했는지 확인해주세요.`);
+			return;
+		}
 	} else {
 		message.channel.send(`${name} 명령어 사용법: \`${useage}\``);
 		return;
 	}
 
-	let today: string;
+	let today: string = '';
+
 	let inputToday = args[2]
-	if (inputToday == undefined) {
+	if (inputToday == undefined || inputToday == '') {
 		today = weekDays[date.getDay()];
-	}
-	else {
-		inputToday = inputToday.replace(/^(\W+)(요일|욜)?$/, "$1");
-		if (weekDays.indexOf(inputToday) != -1) {
-			today = inputToday;
+	} else {
+		if (weekDays.indexOf(inputToday) == -1) {
+			if (inputToday.match(/(요일|욜)$/)) {
+				inputToday = inputToday.replace(/(요일|욜)$/, '');
+				if (weekDays.indexOf(inputToday) == -1) {
+					today = weekDays[date.getDay()];
+				} else {
+					today = inputToday;
+				}
+			} else {
+				today = weekDays[date.getDay()];
+			}
 		} else {
-			today = weekDays[date.getDay()];
+			today = inputToday;
 		}
 	}
 
@@ -85,22 +95,29 @@ exports.run = (client: any, message: any, args: any) => {
 		} else {
 			timeTableArr = timeTableArr.split(" ");
 
-			if (today == weekDays[date.getDay()] && peroid != null) {
-				if (peroid == 4.5) {
-					peroid = Math.floor(peroid);
-					timeTableEmbed.addField("점심 시간", `**${peroid + 8}:50 ~ ${peroid + 8 + 1}:50** 동안 **점심시간**입니다.`);
-				} else if (peroid % 1 == 0) {
-					timeTableEmbed
-						.addField(
-							`수업 시간 (${peroid}교시)`,
-							`${peroid + 8}:50 ~ ${peroid + 8 + 1}:${50}\n지금은 **${timeTableArr[peroid - 1]}** 시간입니다.`
-						);
-				} else if (peroid % 1 == 0.5) {
-					peroid = Math.floor(peroid);
-					if (peroid == 4) {
-						timeTableEmbed.addField("쉬는 시간", `${peroid}교시 쉬는 시간입니다.\n이제 **점심 시간**입니다. 점심 맛있게 드세요!`);
-					} else {
-						timeTableEmbed.addField("쉬는 시간", `${peroid}교시 쉬는 시간입니다.\n${peroid + 1}교시 **${timeTableArr[peroid]}** 수업을 준비하세요.`);
+			peroid = 8;
+			if (peroid <= timeTableArr.length + 0.5) {
+				if (today == weekDays[date.getDay()] && peroid != null) {
+					if (peroid == 4.5) {
+						peroid = Math.floor(peroid);
+						timeTableEmbed.addField("점심 시간", `**${peroid + 8}:50 ~ ${peroid + 8 + 1}:50** 동안 **점심시간**입니다.`);
+					} else if (peroid % 1 == 0) {
+						timeTableEmbed
+							.addField(
+								`수업 시간 (${peroid}교시)`,
+								`${peroid + 8}:50 ~ ${peroid + 8 + 1}:${50}\n지금은 **${timeTableArr[peroid - 1]}** 시간입니다.`
+							);
+					} else if (peroid % 1 == 0.5) {
+						peroid = Math.floor(peroid);
+						if (peroid == 4) {
+							timeTableEmbed.addField("쉬는 시간", `${peroid}교시 쉬는 시간입니다.\n이제 **점심 시간**입니다. 점심 맛있게 드세요!`);
+						} else {
+							if (timeTableArr[peroid] == undefined)
+								timeTableEmbed.addField("종례 시간", `${peroid + 1}교시 수업이 없군요.\n드디어 **종례 시간**인가요!`);
+							else
+								timeTableEmbed.addField("쉬는 시간",
+									`${peroid}교시 쉬는 시간입니다.\n${peroid + 1}교시 **${timeTableArr[peroid]}** 수업을 준비하세요.`);
+						}
 					}
 				}
 			}
