@@ -52,22 +52,22 @@ client.login(TOKEN).then(() => {
 });
 
 // on ready
-const activities_list = [
-	`${client.user?.username}봇의 접두사는 ${PREFIX} 입니다`,
-	`시간표 확인은 ${PREFIX}시간표`,
-	`급식 확인은 ${PREFIX}급식`,
-	`코로나 현황 확인은 ${PREFIX}코로나`,
-	`오류나 건의 사항은 White_Choco#9170`
-];
-let index = 0;
 client.on('ready', () => {
+	const activities_list = [
+		`${client.user?.username}봇의 접두사는 ${PREFIX} 입니다`,
+		`시간표 확인은 ${PREFIX}시간표`,
+		`급식 확인은 ${PREFIX}급식`,
+		`코로나 현황 확인은 ${PREFIX}코로나`,
+		`오류나 건의 사항은 White_Choco#9170`
+	];
+	let index = 0;
 	console.log(`Logged in as ${client.user?.tag}!`);
 	setInterval(() => {
+		client.user?.setActivity(activities_list[index]);
 		if (index == activities_list.length - 1)
 			index = 0;
 		else
 			index++;
-		client.user?.setActivity(activities_list[index]);
 	}, 6000);
 });
 
