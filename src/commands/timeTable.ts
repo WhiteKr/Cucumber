@@ -1,9 +1,7 @@
 import Discord from 'discord.js';
 
-const MASTER = require('../../option.json').MASTER;
 const TIMETABLE = require('../../option.json').TIMETABLE;
 const PREFIX = require('../../option.json').PREFIX;
-const FRIENDSROOM = require('../../option.json').FRIENDSROOM;
 
 const name = '시간표';
 const useage = `${PREFIX}${name} [반(반)] <요일(요일|욜)>`
