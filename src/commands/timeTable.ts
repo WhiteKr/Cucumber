@@ -65,7 +65,7 @@ exports.run = (client: any, message: any, args: any) => {
 	} else {
 		const hour = date.getHours();
 		const min = date.getMinutes();
-		let peroid: number | null = null;
+		let peroid: number | undefined;
 
 		if (hour >= 9 && hour <= 12) {
 			for (let i = 9; i <= 12; i++) {
@@ -86,7 +86,7 @@ exports.run = (client: any, message: any, args: any) => {
 				}
 			}
 		} else {
-			peroid = null;
+			peroid = undefined;
 		}
 
 		let timeTableArr = TIMETABLE[classNum][today];
@@ -95,28 +95,29 @@ exports.run = (client: any, message: any, args: any) => {
 		} else {
 			timeTableArr = timeTableArr.split(" ");
 
-			peroid = 8;
-			if (peroid <= timeTableArr.length + 0.5) {
-				if (today == weekDays[date.getDay()] && peroid != null) {
-					if (peroid == 4.5) {
-						peroid = Math.floor(peroid);
-						timeTableEmbed.addField("점심 시간", `**${peroid + 8}:50 ~ ${peroid + 8 + 1}:50** 동안 **점심시간**입니다.`);
-					} else if (peroid % 1 == 0) {
-						timeTableEmbed
-							.addField(
-								`수업 시간 (${peroid}교시)`,
-								`${peroid + 8}:50 ~ ${peroid + 8 + 1}:${50}\n지금은 **${timeTableArr[peroid - 1]}** 시간입니다.`
-							);
-					} else if (peroid % 1 == 0.5) {
-						peroid = Math.floor(peroid);
-						if (peroid == 4) {
-							timeTableEmbed.addField("쉬는 시간", `${peroid}교시 쉬는 시간입니다.\n이제 **점심 시간**입니다. 점심 맛있게 드세요!`);
-						} else {
-							if (timeTableArr[peroid] == undefined)
-								timeTableEmbed.addField("종례 시간", `${peroid + 1}교시 수업이 없군요.\n드디어 **종례 시간**인가요!`);
-							else
-								timeTableEmbed.addField("쉬는 시간",
-									`${peroid}교시 쉬는 시간입니다.\n${peroid + 1}교시 **${timeTableArr[peroid]}** 수업을 준비하세요.`);
+			if (peroid != undefined) {
+				if (peroid <= timeTableArr.length + 0.5) {
+					if (today == weekDays[date.getDay()] && peroid != null) {
+						if (peroid == 4.5) {
+							peroid = Math.floor(peroid);
+							timeTableEmbed.addField("점심 시간", `**${peroid + 8}:50 ~ ${peroid + 8 + 1}:50** 동안 **점심시간**입니다.`);
+						} else if (peroid % 1 == 0) {
+							timeTableEmbed
+								.addField(
+									`수업 시간 (${peroid}교시)`,
+									`${peroid + 8}:50 ~ ${peroid + 8 + 1}:${50}\n지금은 **${timeTableArr[peroid - 1]}** 시간입니다.`
+								);
+						} else if (peroid % 1 == 0.5) {
+							peroid = Math.floor(peroid);
+							if (peroid == 4) {
+								timeTableEmbed.addField("쉬는 시간", `${peroid}교시 쉬는 시간입니다.\n이제 **점심 시간**입니다. 점심 맛있게 드세요!`);
+							} else {
+								if (timeTableArr[peroid] == undefined)
+									timeTableEmbed.addField("종례 시간", `${peroid + 1}교시 수업이 없군요.\n드디어 **종례 시간**인가요!`);
+								else
+									timeTableEmbed.addField("쉬는 시간",
+										`${peroid}교시 쉬는 시간입니다.\n${peroid + 1}교시 **${timeTableArr[peroid]}** 수업을 준비하세요.`);
+							}
 						}
 					}
 				}
