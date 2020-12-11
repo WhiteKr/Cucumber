@@ -95,5 +95,7 @@ module.exports.send = function (str: any, arr: any, callback: any, message: any)
 				messageReaction[message.id].onClick = callback;
 			}
 		}).catch((e: any) => { });
-	} catch (e) { }
+	} catch (e) {
+		console.error(e);
+	}
 }
