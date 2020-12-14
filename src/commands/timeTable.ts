@@ -89,6 +89,8 @@ exports.run = (client: any, message: any, args: any) => {
 
 		let timeTableArr = TIMETABLE[classNum][today];
 		if (timeTableArr == undefined) {
+			timeTableEmbed.addField('정보 없음', `${today}요일 시간표 정보가 존재하지 않습니다.`);
+		} else if (["토", "일"].indexOf(today) != -1) {
 			timeTableEmbed.addField('와, 주말!', `${today}요일은 편하게 쉬는 날~`);
 		} else {
 			timeTableArr = timeTableArr.split(" ");
@@ -135,5 +137,5 @@ exports.run = (client: any, message: any, args: any) => {
 	message.channel.send(timeTableEmbed).catch(console.error);
 };
 
-exports.name = name; // 시간표 [n반] [m요일?]
+exports.name = name;
 exports.useage = useage;
