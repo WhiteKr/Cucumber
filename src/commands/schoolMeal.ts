@@ -61,14 +61,12 @@ exports.run = (client: any, message: any, args: any) => {
 				switch (reaction.emoji.name) {
 					case '◀️':
 						if (page != 0) {
-							page--;
-							message.edit(mealEmbed(page));
+							message.edit(mealEmbed(--page));
 						}
 						break;
 					case '▶️':
 						if (page != strongs.length - 1) {
-							page++;
-							message.edit(mealEmbed(page));
+							message.edit(mealEmbed(++page));
 						}
 						break;
 				}
