@@ -38,7 +38,7 @@ exports.run = (client: any, message: any, args: any) => {
 			if (todayTemp == undefined || cast_txt == undefined)
 				embed.addField(`찾을 수 없음`, `**${location}** 지역의 날씨 정보를 찾을 수 없습니다.\n올바른 지역 이름으로 다시 시도해보세요.`);
 			else
-				embed.addField(`**${location}** 날씨 정보`, `온도 ${todayTemp}°C\n${cast_txt}`);
+				embed.addField(`**${location}** 날씨 정보`, `온도 **${todayTemp}°C**\n${cast_txt}`);
 			return embed;
 		}
 		message.channel.send(weatherEmbed());
