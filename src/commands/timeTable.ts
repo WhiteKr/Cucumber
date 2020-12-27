@@ -4,7 +4,7 @@ const TIMETABLE = require('../../option.json').TIMETABLE;
 const PREFIX = require('../../option.json').PREFIX;
 
 const name = '시간표';
-const useage = `${PREFIX}${name} [반(반)] <요일(요일|욜)>`
+const usage = `${PREFIX}${name} [반(반)] <요일(요일|욜)>`
 
 const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -14,7 +14,7 @@ exports.run = (client: any, message: any, args: any) => {
 
 	let classNum = args[1];
 	if (classNum == undefined || classNum == '') {
-		message.channel.send(`${name} 명령어 사용법: \`${useage}\``);
+		message.channel.send(`${name} 명령어 사용법: \`${usage}\``);
 		return;
 	} else if (classNum.match(/^(\d+)반?$/)) {
 		classNum = classNum.replace(/^(\d+)반?$/, '$1');
@@ -23,7 +23,7 @@ exports.run = (client: any, message: any, args: any) => {
 			return;
 		}
 	} else {
-		message.channel.send(`${name} 명령어 사용법: \`${useage}\``);
+		message.channel.send(`${name} 명령어 사용법: \`${usage}\``);
 		return;
 	}
 
@@ -138,4 +138,4 @@ exports.run = (client: any, message: any, args: any) => {
 };
 
 exports.name = name;
-exports.useage = useage;
+exports.useage = usage;

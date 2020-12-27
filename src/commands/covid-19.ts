@@ -4,7 +4,7 @@ import request from 'request';
 const PREFIX = require('../../option.json').PREFIX;
 
 const name = '코로나';
-const useage = `${PREFIX}${name}`;
+const usage = `${PREFIX}${name}`;
 
 exports.run = (client: any, message: any, args: any) => {
 	request.get('https://capi.msub.kr', (err, res, body) => {
@@ -50,4 +50,4 @@ exports.run = (client: any, message: any, args: any) => {
 }
 
 exports.name = name;
-exports.useage = useage;
+exports.useage = usage;

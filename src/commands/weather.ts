@@ -5,12 +5,12 @@ import Discord from 'discord.js';
 const PREFIX = require('../../option.json').PREFIX;
 
 const name = '날씨';
-const useage = `${PREFIX}${name} [지역]`
+const usage = `${PREFIX}${name} [지역]`
 
 exports.run = (client: any, message: any, args: any) => {
 	let location = args[1];
 	if (location == undefined || location == '') {
-		message.channel.send(`${name} 명령어 사용법: \`${useage}\``);
+		message.channel.send(`${name} 명령어 사용법: \`${usage}\``);
 		return;
 	}
 
@@ -49,4 +49,4 @@ exports.run = (client: any, message: any, args: any) => {
 }
 
 exports.name = name;
-exports.useage = useage;
+exports.useage = usage;

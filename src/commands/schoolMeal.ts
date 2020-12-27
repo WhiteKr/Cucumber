@@ -5,7 +5,7 @@ import cheerio from 'cheerio';
 const PREFIX = require('../../option.json').PREFIX;
 
 const name = '급식';
-const useage = `${PREFIX}${name} [학교명]`;
+const usage = `${PREFIX}${name} [학교명]`;
 
 const send = require('../index.ts').send;
 
@@ -14,7 +14,7 @@ let page = 0;
 exports.run = (client: any, message: any, args: any) => {
 	let school = args[1];
 	if (school == undefined) {
-		message.channel.send(`${name} 명령어 사용법: \`${useage}\``);
+		message.channel.send(`${name} 명령어 사용법: \`${usage}\``);
 		return;
 	}
 
@@ -76,4 +76,4 @@ exports.run = (client: any, message: any, args: any) => {
 }
 
 exports.name = name;
-exports.useage = useage;
+exports.useage = usage;
