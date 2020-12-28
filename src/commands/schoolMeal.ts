@@ -76,4 +76,4 @@ exports.run = (client: any, message: any, args: any) => {
 }
 
 exports.name = name;
-exports.useage = usage;
+exports.usage = usage;
