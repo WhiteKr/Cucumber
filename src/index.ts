@@ -34,12 +34,12 @@ client.on('message', (message: any) => {
 	//get는 컬렉션 내에 해당 key 값을 가진 데이터가 없으면 false 값을 반환하므로 부분적으로 Collection#has처럼 사용할수 있습니다.
 
 	if (cmd) {
-		cmd.run(client, message, args);
 		if (message.channel.type == 'dm') {
 			console.log(`\n${message.author.tag} in ${message.channel.name} (DM)\n  ${message.content}\n`);
 		} else {
 			console.log(`\n${message.author.tag} in ${message.channel.name} of ${message.guild.name}\n  ${message.content}\n`);
 		}
+		cmd.run(client, message, args);
 	}
 });
 
@@ -57,7 +57,7 @@ client.on('ready', () => {
 		`시간표 확인은 ${PREFIX}시간표`,
 		`급식 확인은 ${PREFIX}급식`,
 		`코로나 현황 확인은 ${PREFIX}코로나`,
-		`오류나 건의 사항은 White_Choco#9170`
+		`오류나 건의 사항은 White_Choco#9170으로.`
 	];
 	let index = 0;
 	console.log(`Logged in as ${client.user?.tag}!`);
