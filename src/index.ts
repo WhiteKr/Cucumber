@@ -34,10 +34,17 @@ client.on('message', (message: any) => {
 	//get는 컬렉션 내에 해당 key 값을 가진 데이터가 없으면 false 값을 반환하므로 부분적으로 Collection#has처럼 사용할수 있습니다.
 
 	if (cmd) {
+		const date = new Date();
+		const month = date.getMonth() + 1;
+		const day = date.getDate();
+		const hour = date.getHours();
+		const minute = date.getMinutes();
+		const second = date.getSeconds();
+		const timeInfo = `${month}.${day}. ${hour}:${minute}:${second}`;
 		if (message.channel.type == 'dm') {
-			console.log(`\n${message.author.tag} in ${message.channel.name} (DM)\n  ${message.content}\n`);
+			console.log(`\n${message.author.tag} in ${message.channel.name} (DM) (${timeInfo})\n  ${message.content}\n`);
 		} else {
-			console.log(`\n${message.author.tag} in ${message.channel.name} of ${message.guild.name}\n  ${message.content}\n`);
+			console.log(`\n${message.author.tag} in ${message.channel.name} of ${message.guild.name} (${timeInfo})\n  ${message.content}\n`);
 		}
 		cmd.run(client, message, args);
 	}
