@@ -1,3 +1,4 @@
+**/.DS_Store
 node_modules
-option.json
 src/novels/*
+option.json
