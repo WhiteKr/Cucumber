@@ -2,7 +2,7 @@ import Discord from 'discord.js';
 const client = new Discord.Client();
 import fs from 'fs';
 
-const TOKEN = require('../option.json').TOKEN;
+const DISCORDKEY = require('../option.json').KEYS.DISCORD;
 const PREFIX = require('../option.json').PREFIX;
 
 function requireUncached(module: any) {
@@ -42,7 +42,7 @@ client.on('message', (message: any) => {
 		const second = date.getSeconds();
 		const timeInfo = `${month}.${day}. ${hour}:${minute}:${second}`;
 		if (message.channel.type == 'dm') {
-			console.log(`\n${message.author.tag} in ${message.channel.name} (DM) (${timeInfo})\n  ${message.content}\n`);
+			console.log(`\n${message.author.tag} (DM) (${timeInfo})\n  ${message.content}\n`);
 		} else {
 			console.log(`\n${message.author.tag} in ${message.channel.name} of ${message.guild.name} (${timeInfo})\n  ${message.content}\n`);
 		}
@@ -51,7 +51,7 @@ client.on('message', (message: any) => {
 });
 
 // login
-client.login(TOKEN).then(() => {
+client.login(DISCORDKEY).then(() => {
 	console.log('봇이 준비되었습니다');
 	console.log('Logging in...');
 	client.user?.setActivity('전원 켜지는 중...', { type: 'PLAYING' });
