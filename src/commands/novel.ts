@@ -4,53 +4,24 @@ import fs from 'fs';
 const PREFIX = require('../../option.json').PREFIX;
 
 const name = 'novel';
-const usage = `${PREFIX}${name} [소설제목|(list|리스트|목록)]`;
+const usage = `${PREFIX}${name} <소설번호>`;
 
 exports.run = (client: any, message: any, args: any) => {
-	let novelName: any;
-	if (args[1] != undefined)
-		novelName = args.slice(1).join(' ');
-	else {
-		message.channel.send(`${name} 명령어 사용법: \`${usage}\``);
-		return;
-	}
-	console.log(`Novel's Name: ${novelName}`);
-
+	let novelNum = args[1];
 	let novelList = fs.readdirSync('./src/novels/');
-
-	let listWords = ['list', '리스트', '목록'];
-	if (listWords.indexOf(novelName) != -1) {
+	if (novelNum == undefined) {
 		let result = '';
 		novelList.forEach((file, index) => {
 			result += `${index}. ${file}\n`;
 		});
-		message.channel.send(`[ 소설 목록 ]\n\`\`\`${result}\`\`\``);
+		message.channel.send(`[ 소설 목록 ]\n\`\`\`${result}\n사용법: ${usage}\`\`\``);
 		return;
 	}
-
-	let matchNovels: any = [];
-	novelList.map(novel => {
-		if (novel.indexOf(novelName) != -1) {
-			matchNovels.push(novel);
-		}
-	});
-
-	let result = '';
-	if (matchNovels.length == 0) {
-		message.channel.send(`[ \`${novelName}\` 검색 결과 없음 ]`);
-		return;
-	} else if (matchNovels.length == 1) {
-		result += `\`${novelName}\` 소설을 한 개 발견.\n`;
-	} else if (matchNovels.length > 0) {
-
-		result += `[ \`${novelName}\` 검색 결과 ]\n\`\`\``;
-		matchNovels.forEach((novel: any, index: any) => {
-			result += `${index}. ${novel}\n`;
-		});
-		result += '\`\`\`';
+	if (novelNum.match(/[^0-9]/g)) {
+		message.channel.send(`${name} 명령어 사용법: \`${usage}\``);
+	} else {
+		message.channel.send(`${novelNum}번 소설 제목: ${novelList[novelNum]}`);
 	}
-	message.channel.send(result);
-	message.channel.send(`matchNovels: ${matchNovels}`);
 
 	// let novelContent: string[];
 
@@ -77,7 +48,7 @@ exports.run = (client: any, message: any, args: any) => {
 	// 	}
 	// }, message);
 
-	// if (novelList.indexOf(novelName) != -1) {
+	// if (novelList.indexOf(novelNum) != -1) {
 	// 	message.channel.send('일치하는 소설이 있습니다');
 	// } else {
 	// 	message.channel.send('일치하는 소설이 없습니다');
