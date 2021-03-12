@@ -8,7 +8,6 @@ const name = '급식';
 const usage = `${PREFIX}${name} [학교명]`;
 
 const send = require('../index.ts').send;
-
 let page = 0;
 
 exports.run = (client: any, message: any, args: any) => {
