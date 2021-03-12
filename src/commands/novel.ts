@@ -1,11 +1,15 @@
+import Discord from 'discord.js';
 import fs from 'fs';
-import Iconv from 'iconv';
 import jschardet from 'jschardet';
+var Iconv = require('iconv').Iconv;
 
 const PREFIX = require('../../option.json').PREFIX;
 
 const name = 'novel';
 const usage = `${PREFIX}${name} <소설번호>`;
+
+const send = require('../index.ts').send;
+let page = 0;
 
 exports.run = (client: any, message: any, args: any) => {
 	let novelNum = args[1];
@@ -31,21 +35,25 @@ exports.run = (client: any, message: any, args: any) => {
 
 	// 문자코드 확인
 	let detectedContent = jschardet.detect(content);
-	console.log(detectedContent);
 
 	// Iconv 로 utf-8 로 변환하는 객체 생성
 	let iconv = new Iconv(detectedContent.encoding, 'utf-8');
 	let content3 = iconv.convert(content); // UTF-8 로 변환
 	let utf8Text = content3.toString('utf-8'); // 버퍼를 문자열로 변환 
-	console.log(utf8Text);
 
 	// UTF-8으로 파일 저장
 	fs.writeFileSync('test3_utf8.txt', utf8Text, 'utf-8');
 
 	const novelContent = fs.readFileSync(`./src/novels/${novelList[novelNum]}`, 'utf-8');
-	const novelKwon = novelContent.split(/\(\d+권 *끝\)/);
-	message.channel.send(novelKwon[0].slice(0, 10));
+	const splitBlank = novelContent.split(/\n{3,}/);
+
+	const novelEmbed = function (page: any) {
+		let embed = new Discord.MessageEmbed()
+			.setColor('#0099ff');
+		// if ()
+		return { embed };
+	}
 }
 
-exports.name = name;
+// exports.name = name;
 exports.usage = usage;
