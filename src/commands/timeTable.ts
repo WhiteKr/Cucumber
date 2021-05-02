@@ -1,7 +1,6 @@
 import Discord from 'discord.js';
 
-const TIMETABLE = require('../../option.json').TIMETABLE;
-const PREFIX = require('../../option.json').PREFIX;
+const { PREFIX, TIMETABLE } = require('../../option.json');
 
 const name = '시간표';
 const usage = `${PREFIX}${name} [반(반)] <요일(요일|욜)>`

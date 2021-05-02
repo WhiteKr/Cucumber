@@ -30,7 +30,7 @@ exports.run = (client: any, message: any, args: any) => {
 		return;
 	}
 
-	// 뮨자코드를 모르는 파일 불러오기
+	// 문자코드를 모르는 파일 불러오기
 	let content = fs.readFileSync(`./src/novels/${novelList[novelNum]}`);
 
 	// 문자코드 확인
@@ -45,7 +45,7 @@ exports.run = (client: any, message: any, args: any) => {
 	fs.writeFileSync('test3_utf8.txt', utf8Text, 'utf-8');
 
 	const novelContent = fs.readFileSync(`./src/novels/${novelList[novelNum]}`, 'utf-8');
-	const splitBlank = novelContent.split(/\n{3,}/);
+	const split3n = novelContent.split(/\n{3,}/);
 
 	const novelEmbed = function (page: any) {
 		let embed = new Discord.MessageEmbed()
